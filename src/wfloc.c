@@ -29,12 +29,17 @@ VOID InitLangList(HWND hCBox)
     for (UINT i = 0; i <= (COUNTOF(szLCIDs) - 1); i++)
     {
         TCHAR szLangName[MAX_PATH] = { 0 };
-        LCID lcidTemp = LocaleNameToLCID(szLCIDs[i], 0);
-
+      #if (_WIN32_WINNT >= NTDDI_WS03SP2)
+      LCID lcidTemp = LocaleNameToLCID(szTemp, 0);
+      #else
+      LCID lcidTemp = 0;
+      #endif
+      
+      #if (_WIN32_WINNT >= NTDDI_WS03SP2)
         // TODO: need to test this on pre-Vista and on/after Win XP 64
         if (GetLocaleInfoEx(szLCIDs[i], LOCALE_SLOCALIZEDDISPLAYNAME, szLangName, COUNTOF(szLangName)) == 0)
             lstrcpy(szLangName, TEXT("BUGBUG"));
-
+      #endif
         // every entry in the array above needs to be addd to the list box;
         // SaveLang() below depends on each index in the listbox being valid.
         SendMessage(hCBox, CB_ADDSTRING, 0, (LPARAM)szLangName);

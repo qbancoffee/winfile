@@ -15,7 +15,7 @@
 #define NTFS
 
 #include <windows.h>
-#include <windowsX.h>
+#include <windowsx.h>
 #include <setjmp.h>
 #include <string.h>
 #include <memory.h>

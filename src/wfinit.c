@@ -1022,7 +1022,12 @@ InitFileManager(
    GetPrivateProfileString(szSettings, szUILanguage, szNULL, szTemp, COUNTOF(szTemp), szTheINIFile);
    if (szTemp[0])
    {
-       LCID lcidUI = LocaleNameToLCID(szTemp, 0);
+      #if (_WIN32_WINNT >= NTDDI_WS03SP2)
+      LCID lcidUI = LocaleNameToLCID(szTemp, 0);
+      #else
+      LCID lcidUI = 0;
+      #endif
+       
        if (lcidUI != 0)
        {
            SetThreadUILanguage((LANGID)lcidUI);

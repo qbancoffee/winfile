@@ -504,7 +504,12 @@ FillSearchLB(HWND hwndLB, LPWSTR szSearchFileSpec, BOOL bRecurse, BOOL bIncludeS
 	  }
 
       // copy the wild card to a temporary buffer sine FixUpFileSpec modifies the buffer
+      #if (_WIN32_WINNT >= NTDDI_WS03SP2)
       wcsncpy_s(szWildCard, COUNTOF(szWildCard), lpszCurrentFileSpecStart, _TRUNCATE);
+      #else
+      wcsncpy(szWildCard, lpszCurrentFileSpecStart, _TRUNCATE);
+      #endif	      
+
 
 	  FixUpFileSpec(szWildCard);
 

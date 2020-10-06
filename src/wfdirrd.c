@@ -1259,7 +1259,12 @@ DWORD DecodeReparsePoint(LPCWSTR szMyFile, LPCWSTR szChild, LPWSTR szDest, DWORD
 				szT += 2;
 				cwcLink -= 2;
 			}
+            #if (_WIN32_WINNT >= NTDDI_WS03SP2)
 			wcsncpy_s(szDest, MAXPATHLEN, szT, cwcLink);
+            #else
+			wcsncpy(szDest, szT, cwcLink);
+            #endif			
+
 			szDest[cwcLink] = 0;
 		}
 		else

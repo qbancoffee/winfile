@@ -1705,7 +1705,8 @@ NetLoad(VOID)
 
 #define GET_PROC(x) \
       if (!(lpfn##x = (PVOID) GetProcAddress(hMPR,NETWORK_##x))) \
-         return FALSE
+         return TRUE      //This is a hack to get it to run on REACTOS
+         //return FALSE
 
       GET_PROC(WNetCloseEnum);
       GET_PROC(WNetConnectionDialog2);

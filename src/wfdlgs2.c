@@ -550,13 +550,22 @@ JAPANEND
 				{
                     if (!fFirst)
                     {
-                        wcsncat_s(szDirs, MAXPATHLEN, TEXT(";"), 1);
+                    #if (_WIN32_WINNT >= NTDDI_WS03SP2)
+                    wcsncat_s(szDirs, MAXPATHLEN, TEXT(";"), 1);
+                    #else
+                    wcsncat(szDirs, TEXT(";"), 1);
+                    #endif
+                        
                     }
                     fFirst = FALSE;
 
                     // NOTE: this call may truncate the result that goes in szDirs,
                     // but due to the limited width of the dialog, we can't see it all anyway.
+                    #if (_WIN32_WINNT >= NTDDI_WS03SP2)
                     wcsncat_s(szDirs, MAXPATHLEN, rgszDirs[drive], _TRUNCATE);
+                    #else
+                    wcsncat(szDirs, rgszDirs[drive], _TRUNCATE);
+                    #endif                    
 
 	        		LocalFree(rgszDirs[drive]);
 	        	}

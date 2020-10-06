@@ -755,7 +755,12 @@ INT_PTR CALLBACK PrefDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM lParam)
 
                     if ((*lpfnGetOpenFileNameW)(&ofn))
                     {
+					    #if (_WIN32_WINNT >= NTDDI_WS03SP2)
                         wcscpy_s(szPath, MAX_PATH, ofn.lpstrFile);
+                        #else
+                        wcscpy(szPath, ofn.lpstrFile);
+                        #endif
+                        
                         SetDlgItemText(hDlg, IDD_EDITOR, szPath);
                     }
                     break;
